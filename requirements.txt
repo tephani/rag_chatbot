@@ -6,3 +6,4 @@ pypdf
 fastembed
 chromadb
 protobuf==3.20.*
+python-dotenv

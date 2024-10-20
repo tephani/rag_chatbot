@@ -1,6 +1,9 @@
+import os
+from dotenv import load_dotenv
+
 from langchain_core.globals import set_verbose, set_debug
 from langchain_community.vectorstores import Chroma
-from langchain_community.chat_models import ChatOllama
+from langchain_community.chat_models import ChatOllama  # or ChatGemini if applicable
 from langchain_community.embeddings import FastEmbedEmbeddings
 from langchain.schema.output_parser import StrOutputParser
 from langchain_community.document_loaders import PyPDFLoader
@@ -8,11 +11,14 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.schema.runnable import RunnablePassthrough
 from langchain_community.vectorstores.utils import filter_complex_metadata
 from langchain_core.prompts import ChatPromptTemplate
+import os
+from dotenv import load_dotenv
 
+# Load environment variables
+load_dotenv()
 
 set_debug(True)
 set_verbose(True)
-
 
 class ChatPDF:
     vector_store = None
@@ -20,7 +26,12 @@ class ChatPDF:
     chain = None
 
     def __init__(self, llm_model: str = "qwen2.5"):
-        self.model = ChatOllama(model=llm_model)
+        # Load the API key from the environment
+        self.api_key = os.getenv("GEMINI_API_KEY")  # Use your actual environment variable name
+
+        # Pass the API key to the model (assuming it accepts an api_key parameter)
+        self.model = ChatOllama(model=llm_model, api_key=self.api_key)  # Modify based on the actual model class
+
         self.text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=1024, chunk_overlap=100
         )
@@ -28,7 +39,7 @@ class ChatPDF:
             [
                 (
                     "system",
-                    "You are a helpful assistant that can answer questions about the PDF document that uploaded by the user. ",
+                    "You are a helpful assistant that can answer questions about the PDF document that uploaded by the user.",
                 ),
                 (
                     "human",
