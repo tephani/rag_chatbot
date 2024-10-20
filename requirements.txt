@@ -4,3 +4,4 @@ streamlit_chat
 langchain_community
 pypdf
 fastembed
+chromadb
