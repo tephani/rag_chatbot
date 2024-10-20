@@ -1,2 +1,9 @@
 # created by virtualenv automatically
+__pychache__
+chroma_db
+etc
+include
+share
+Scripts
+models
 Lib
